@@ -1,0 +1,323 @@
+<div
+  *ngIf="visible"
+  class="modal-overlay"
+  (click)="close()"
+>
+
+  <div
+    class="modal-container"
+    (click)="$event.stopPropagation()"
+  >
+
+    <div class="modal-header">
+
+      <div>
+        <h2>Register New Employee</h2>
+        <p>Enter employee information below.</p>
+      </div>
+
+      <button
+        type="button"
+        class="close-button"
+        (click)="close()"
+      >
+        ×
+      </button>
+
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="error-message"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <form
+      (ngSubmit)="saveEmployee()"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label for="modalEmployeeCode">
+            Employee Code *
+          </label>
+
+          <input
+            id="modalEmployeeCode"
+            type="text"
+            name="employeeCode"
+            [(ngModel)]="form.employeeCode"
+            placeholder="Example: EMP003"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalFirstName">
+            First Name *
+          </label>
+
+          <input
+            id="modalFirstName"
+            type="text"
+            name="firstName"
+            [(ngModel)]="form.firstName"
+            placeholder="Enter first name"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalLastName">
+            Last Name *
+          </label>
+
+          <input
+            id="modalLastName"
+            type="text"
+            name="lastName"
+            [(ngModel)]="form.lastName"
+            placeholder="Enter last name"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalNic">
+            NIC *
+          </label>
+
+          <input
+            id="modalNic"
+            type="text"
+            name="nic"
+            [(ngModel)]="form.nic"
+            placeholder="Enter NIC"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalMobileNo">
+            Mobile Number *
+          </label>
+
+          <input
+            id="modalMobileNo"
+            type="text"
+            name="mobileNo"
+            [(ngModel)]="form.mobileNo"
+            placeholder="0771234567"
+            maxlength="10"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalEmail">
+            Email *
+          </label>
+
+          <input
+            id="modalEmail"
+            type="email"
+            name="email"
+            [(ngModel)]="form.email"
+            placeholder="employee@example.com"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Gender *
+          </label>
+
+          <div class="radio-group">
+
+            <label class="radio-option">
+
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                [(ngModel)]="form.gender"
+                required
+              />
+
+              <span>Male</span>
+
+            </label>
+
+            <label class="radio-option">
+
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                [(ngModel)]="form.gender"
+                required
+              />
+
+              <span>Female</span>
+
+            </label>
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalDateOfBirth">
+            Date of Birth *
+          </label>
+
+          <input
+            id="modalDateOfBirth"
+            type="date"
+            name="dateOfBirth"
+            [(ngModel)]="form.dateOfBirth"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalDesignation">
+            Designation *
+          </label>
+
+          <select
+            id="modalDesignation"
+            name="designationId"
+            [(ngModel)]="form.designationId"
+            required
+          >
+
+            <option
+              [ngValue]="0"
+              disabled
+            >
+              Select Designation
+            </option>
+
+            <option
+              *ngFor="let designation of designations"
+              [ngValue]="designation.designationId"
+            >
+              {{ designation.designationName }}
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label for="modalStatus">
+            Status *
+          </label>
+
+          <select
+            id="modalStatus"
+            name="status"
+            [(ngModel)]="form.status"
+            required
+          >
+
+            <option value="ACTIVE">
+              Active
+            </option>
+
+            <option value="INACTIVE">
+              Inactive
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group full-width">
+
+          <label for="modalAddress">
+            Address *
+          </label>
+
+          <textarea
+            id="modalAddress"
+            name="address"
+            rows="3"
+            [(ngModel)]="form.address"
+            placeholder="Enter employee address"
+            required
+          ></textarea>
+
+        </div>
+
+        <div class="form-group full-width">
+
+          <label for="modalProfileImage">
+            Profile Image
+          </label>
+
+          <input
+            id="modalProfileImage"
+            type="file"
+            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+            (change)="onFileSelected($event)"
+          />
+
+          <small>
+            JPG or PNG, maximum 5MB.
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="modal-actions">
+
+        <button
+          type="button"
+          class="cancel-button"
+          (click)="close()"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          class="save-button"
+          [disabled]="saving"
+        >
+          {{
+            saving
+              ? 'Saving...'
+              : 'Create Employee'
+          }}
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
