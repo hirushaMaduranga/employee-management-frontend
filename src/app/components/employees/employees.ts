@@ -52,13 +52,16 @@ export class Employees implements OnInit {
         throw new Error(`HTTP ${response.status}`);
       }
 
-      this.employees = await response.json();
+      const data: Employee[] = await response.json();
+
+      this.employees = data ?? [];
     } catch (error) {
-      console.error(error);
+      console.error('Employee loading error:', error);
 
       this.errorMessage = 'Unable to load employees.';
     } finally {
       this.loading = false;
+
       this.cdr.detectChanges();
     }
   }
@@ -91,10 +94,20 @@ export class Employees implements OnInit {
 
       await this.loadEmployees();
     } catch (error) {
-      console.error(error);
+      console.error('Status update error:', error);
 
       alert('Unable to update employee status.');
     }
+  }
+
+  getProfileImageUrl(path: string | null): string {
+    if (!path) {
+      return '';
+    }
+
+    const normalizedPath = path.replace(/\\/g, '/');
+
+    return `http://localhost:8080/${normalizedPath}`;
   }
 
   downloadCsv(): void {

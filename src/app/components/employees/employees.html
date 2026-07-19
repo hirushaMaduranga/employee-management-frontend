@@ -3,15 +3,19 @@
   <aside class="sidebar">
 
     <div class="logo">
-      <div class="logo-icon">EM</div>
 
-      <div>
+      <div class="logo-icon">
+        EM
+      </div>
+
+      <div class="logo-text">
         <h2>Employee</h2>
         <span>Management</span>
       </div>
+
     </div>
 
-    <nav>
+    <nav class="navigation">
 
       <a
         routerLink="/dashboard"
@@ -30,6 +34,7 @@
     </nav>
 
     <button
+      type="button"
       class="logout-button"
       (click)="logout()"
     >
@@ -44,6 +49,7 @@
 
       <div>
         <h1>Employee Management</h1>
+
         <p>
           Search and manage employee records.
         </p>
@@ -52,24 +58,24 @@
       <div class="header-actions">
 
         <button
-          class="secondary-button"
           type="button"
+          class="secondary-button"
           (click)="downloadCsv()"
         >
           Export CSV
         </button>
 
         <button
-          class="secondary-button"
           type="button"
+          class="secondary-button"
           (click)="downloadPdf()"
         >
           Export PDF
         </button>
 
         <button
-          class="primary-button"
           type="button"
+          class="primary-button"
           routerLink="/employees/add"
         >
           Add Employee
@@ -99,12 +105,12 @@
 
       <div class="filter-group">
 
-        <label for="statusFilter">
+        <label for="employeeStatus">
           Status
         </label>
 
         <select
-          id="statusFilter"
+          id="employeeStatus"
           [(ngModel)]="status"
         >
 
@@ -127,16 +133,16 @@
       <div class="filter-buttons">
 
         <button
-          class="search-button"
           type="button"
+          class="search-button"
           (click)="search()"
         >
           Search
         </button>
 
         <button
-          class="reset-button"
           type="button"
+          class="reset-button"
           (click)="reset()"
         >
           Reset
@@ -172,6 +178,7 @@
           <thead>
 
           <tr>
+            <th>Profile</th>
             <th>Code</th>
             <th>Name</th>
             <th>NIC</th>
@@ -189,6 +196,32 @@
           <tr
             *ngFor="let employee of employees"
           >
+
+            <td>
+
+              <div class="profile-cell">
+
+                <img
+                  *ngIf="employee.profileImagePath"
+                  [src]="getProfileImageUrl(employee.profileImagePath)"
+                  [alt]="employee.firstName"
+                  class="profile-image"
+                />
+
+                <div
+                  *ngIf="!employee.profileImagePath"
+                  class="profile-placeholder"
+                >
+                  {{
+                    employee.firstName
+                      .charAt(0)
+                      .toUpperCase()
+                  }}
+                </div>
+
+              </div>
+
+            </td>
 
             <td>
               {{ employee.employeeCode }}
@@ -212,7 +245,9 @@
             </td>
 
             <td>
-              {{ employee.designation.designationName }}
+              {{
+                employee.designation.designationName
+              }}
             </td>
 
             <td>
@@ -232,8 +267,8 @@
               <div class="action-buttons">
 
                 <button
-                  class="edit-button"
                   type="button"
+                  class="edit-button"
                   [routerLink]="[
                       '/employees/edit',
                       employee.employeeId
@@ -243,8 +278,8 @@
                 </button>
 
                 <button
-                  class="status-button"
                   type="button"
+                  class="status-button"
                   (click)="changeStatus(employee)"
                 >
                   {{
@@ -265,7 +300,7 @@
           >
 
             <td
-              colspan="8"
+              colspan="9"
               class="empty-row"
             >
               No employees found.
