@@ -166,4 +166,28 @@
     flex-direction: column;
     gap: 16px;
   }
+  .radio-group {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .radio-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .radio-option input {
+    width: auto;
+    margin: 0;
+  }
+
+  .radio-option span {
+    color: #334155;
+    font-size: 14px;
+  }
 }
