@@ -5,22 +5,27 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 import { Employee } from '../../services/employee';
+import { EmployeeModal } from '../employee-modal/employee-modal';
 
 @Component({
   selector: 'app-employees',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, EmployeeModal],
   templateUrl: './employees.html',
   styleUrl: './employees.css',
 })
 export class Employees implements OnInit {
   employees: Employee[] = [];
 
-  keyword = '';
+  employeeCode = '';
+  nic = '';
+  employeeName = '';
   status = 'ALL';
 
   loading = true;
   errorMessage = '';
+
+  showEmployeeModal = false;
 
   private readonly apiUrl = 'http://localhost:8080/api/employees';
 
@@ -40,8 +45,16 @@ export class Employees implements OnInit {
     try {
       const params = new URLSearchParams();
 
-      if (this.keyword.trim()) {
-        params.set('keyword', this.keyword.trim());
+      if (this.employeeCode.trim()) {
+        params.set('employeeCode', this.employeeCode.trim());
+      }
+
+      if (this.nic.trim()) {
+        params.set('nic', this.nic.trim());
+      }
+
+      if (this.employeeName.trim()) {
+        params.set('name', this.employeeName.trim());
       }
 
       params.set('status', this.status);
@@ -71,10 +84,26 @@ export class Employees implements OnInit {
   }
 
   reset(): void {
-    this.keyword = '';
+    this.employeeCode = '';
+    this.nic = '';
+    this.employeeName = '';
     this.status = 'ALL';
 
     void this.loadEmployees();
+  }
+
+  openEmployeeModal(): void {
+    this.showEmployeeModal = true;
+  }
+
+  closeEmployeeModal(): void {
+    this.showEmployeeModal = false;
+  }
+
+  async onEmployeeCreated(): Promise<void> {
+    this.showEmployeeModal = false;
+
+    await this.loadEmployees();
   }
 
   async changeStatus(employee: Employee): Promise<void> {
