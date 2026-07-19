@@ -166,31 +166,47 @@
 
         <div class="form-group">
 
-          <label for="gender">
+          <label>
             Gender *
           </label>
 
-          <select
-            id="gender"
-            name="gender"
-            [(ngModel)]="form.gender"
-            [disabled]="isEditMode"
-            required
-          >
+          <div class="radio-group">
 
-            <option value="">
-              Select Gender
-            </option>
+            <label class="radio-option">
 
-            <option value="Male">
-              Male
-            </option>
+              <input
+                type="radio"
+                name="gender"
+                value="Male"
+                [(ngModel)]="form.gender"
+                [disabled]="isEditMode"
+                required
+              />
 
-            <option value="Female">
-              Female
-            </option>
+              <span>
+                Male
+              </span>
 
-          </select>
+            </label>
+
+            <label class="radio-option">
+
+              <input
+                type="radio"
+                name="gender"
+                value="Female"
+                [(ngModel)]="form.gender"
+                [disabled]="isEditMode"
+                required
+              />
+
+              <span>
+                Female
+              </span>
+
+            </label>
+
+          </div>
 
         </div>
 
@@ -224,8 +240,18 @@
             required
           >
 
-            <option [ngValue]="1">
-              Software Engineer
+            <option
+              [ngValue]="0"
+              disabled
+            >
+              Select Designation
+            </option>
+
+            <option
+              *ngFor="let designation of designations"
+              [ngValue]="designation.designationId"
+            >
+              {{ designation.designationName }}
             </option>
 
           </select>
