@@ -1,0 +1,329 @@
+<div class="form-page">
+
+  <div class="form-container">
+
+    <div class="form-header">
+
+      <div>
+
+        <h1>
+          {{
+            isEditMode
+              ? 'Edit Employee'
+              : 'Add Employee'
+          }}
+        </h1>
+
+        <p>
+          {{
+            isEditMode
+              ? 'Update employee information.'
+              : 'Create a new employee record.'
+          }}
+        </p>
+
+      </div>
+
+      <button
+        class="back-button"
+        type="button"
+        (click)="cancel()"
+      >
+        Back
+      </button>
+
+    </div>
+
+    <div
+      *ngIf="loading"
+      class="message"
+    >
+      Loading employee details...
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="error-message"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <form
+      *ngIf="!loading"
+      (ngSubmit)="saveEmployee()"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label>
+            Employee Code *
+          </label>
+
+          <input
+            type="text"
+            name="employeeCode"
+            [(ngModel)]="
+              form.employeeCode
+            "
+            [readonly]="isEditMode"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            First Name *
+          </label>
+
+          <input
+            type="text"
+            name="firstName"
+            [(ngModel)]="
+              form.firstName
+            "
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Last Name *
+          </label>
+
+          <input
+            type="text"
+            name="lastName"
+            [(ngModel)]="
+              form.lastName
+            "
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            NIC *
+          </label>
+
+          <input
+            type="text"
+            name="nic"
+            [(ngModel)]="
+              form.nic
+            "
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Mobile Number *
+          </label>
+
+          <input
+            type="text"
+            name="mobileNo"
+            [(ngModel)]="
+              form.mobileNo
+            "
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Email *
+          </label>
+
+          <input
+            type="email"
+            name="email"
+            [(ngModel)]="
+              form.email
+            "
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Gender *
+          </label>
+
+          <select
+            name="gender"
+            [(ngModel)]="
+              form.gender
+            "
+            [disabled]="isEditMode"
+            required
+          >
+
+            <option value="">
+              Select Gender
+            </option>
+
+            <option value="Male">
+              Male
+            </option>
+
+            <option value="Female">
+              Female
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Date of Birth *
+          </label>
+
+          <input
+            type="date"
+            name="dateOfBirth"
+            [(ngModel)]="
+              form.dateOfBirth
+            "
+            [readonly]="isEditMode"
+            required
+          />
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Designation *
+          </label>
+
+          <select
+            name="designationId"
+            [(ngModel)]="
+              form.designationId
+            "
+          >
+
+            <option
+              [ngValue]="1"
+            >
+              Software Engineer
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+
+          <label>
+            Status *
+          </label>
+
+          <select
+            name="status"
+            [(ngModel)]="
+              form.status
+            "
+          >
+
+            <option value="ACTIVE">
+              Active
+            </option>
+
+            <option value="INACTIVE">
+              Inactive
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group full-width">
+
+          <label>
+            Address *
+          </label>
+
+          <textarea
+            name="address"
+            rows="3"
+            [(ngModel)]="
+              form.address
+            "
+            required
+          ></textarea>
+
+        </div>
+
+        <div class="form-group full-width">
+
+          <label>
+            Profile Image
+          </label>
+
+          <input
+            type="file"
+            accept=".jpg,.jpeg,.png"
+            (change)="
+              onFileSelected($event)
+            "
+          />
+
+          <small>
+            JPG or PNG, maximum 5MB.
+          </small>
+
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="cancel-button"
+          type="button"
+          (click)="cancel()"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="save-button"
+          type="submit"
+          [disabled]="saving"
+        >
+          {{
+            saving
+              ? 'Saving...'
+              : (
+                isEditMode
+                  ? 'Update Employee'
+                  : 'Create Employee'
+              )
+          }}
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
