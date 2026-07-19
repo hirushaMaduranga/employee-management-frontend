@@ -1,1 +1,286 @@
-<p>employees works!</p>
+<div class="page-layout">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <div class="logo-icon">EM</div>
+
+      <div>
+        <h2>Employee</h2>
+        <span>Management</span>
+      </div>
+    </div>
+
+    <nav>
+
+      <a
+        routerLink="/dashboard"
+        class="nav-link"
+      >
+        Dashboard
+      </a>
+
+      <a
+        routerLink="/employees"
+        class="nav-link active"
+      >
+        Employees
+      </a>
+
+    </nav>
+
+    <button
+      class="logout-button"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="page-header">
+
+      <div>
+        <h1>Employee Management</h1>
+        <p>
+          Search and manage employee records.
+        </p>
+      </div>
+
+      <div class="header-actions">
+
+        <button
+          class="secondary-button"
+          type="button"
+          (click)="downloadCsv()"
+        >
+          Export CSV
+        </button>
+
+        <button
+          class="secondary-button"
+          type="button"
+          (click)="downloadPdf()"
+        >
+          Export PDF
+        </button>
+
+        <button
+          class="primary-button"
+          type="button"
+          routerLink="/employees/add"
+        >
+          Add Employee
+        </button>
+
+      </div>
+
+    </header>
+
+    <section class="filter-card">
+
+      <div class="filter-group">
+
+        <label for="employeeSearch">
+          Search
+        </label>
+
+        <input
+          id="employeeSearch"
+          type="text"
+          [(ngModel)]="keyword"
+          placeholder="Search by code, NIC or name"
+          (keyup.enter)="search()"
+        />
+
+      </div>
+
+      <div class="filter-group">
+
+        <label for="statusFilter">
+          Status
+        </label>
+
+        <select
+          id="statusFilter"
+          [(ngModel)]="status"
+        >
+
+          <option value="ALL">
+            All
+          </option>
+
+          <option value="ACTIVE">
+            Active
+          </option>
+
+          <option value="INACTIVE">
+            Inactive
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="filter-buttons">
+
+        <button
+          class="search-button"
+          type="button"
+          (click)="search()"
+        >
+          Search
+        </button>
+
+        <button
+          class="reset-button"
+          type="button"
+          (click)="reset()"
+        >
+          Reset
+        </button>
+
+      </div>
+
+    </section>
+
+    <div
+      *ngIf="loading"
+      class="message"
+    >
+      Loading employees...
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="error-message"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <section
+      *ngIf="!loading && !errorMessage"
+      class="table-card"
+    >
+
+      <div class="table-wrapper">
+
+        <table>
+
+          <thead>
+
+          <tr>
+            <th>Code</th>
+            <th>Name</th>
+            <th>NIC</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Designation</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+          <tr
+            *ngFor="let employee of employees"
+          >
+
+            <td>
+              {{ employee.employeeCode }}
+            </td>
+
+            <td>
+              {{ employee.firstName }}
+              {{ employee.lastName }}
+            </td>
+
+            <td>
+              {{ employee.nic }}
+            </td>
+
+            <td>
+              {{ employee.mobileNo }}
+            </td>
+
+            <td>
+              {{ employee.email }}
+            </td>
+
+            <td>
+              {{ employee.designation.designationName }}
+            </td>
+
+            <td>
+
+                <span
+                  class="status-badge"
+                  [class.active]="employee.status === 'ACTIVE'"
+                  [class.inactive]="employee.status === 'INACTIVE'"
+                >
+                  {{ employee.status }}
+                </span>
+
+            </td>
+
+            <td>
+
+              <div class="action-buttons">
+
+                <button
+                  class="edit-button"
+                  type="button"
+                  [routerLink]="[
+                      '/employees/edit',
+                      employee.employeeId
+                    ]"
+                >
+                  Edit
+                </button>
+
+                <button
+                  class="status-button"
+                  type="button"
+                  (click)="changeStatus(employee)"
+                >
+                  {{
+                    employee.status === 'ACTIVE'
+                      ? 'Deactivate'
+                      : 'Activate'
+                  }}
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+          <tr
+            *ngIf="employees.length === 0"
+          >
+
+            <td
+              colspan="8"
+              class="empty-row"
+            >
+              No employees found.
+            </td>
+
+          </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
