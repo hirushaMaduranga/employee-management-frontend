@@ -1,1 +1,144 @@
-<p>dashboard works!</p>
+<div class="dashboard-layout">
+
+  <aside class="sidebar">
+
+    <div class="logo">
+      <div class="logo-icon">EM</div>
+
+      <div>
+        <h2>Employee</h2>
+        <span>Management</span>
+      </div>
+    </div>
+
+    <nav>
+
+      <a
+        routerLink="/dashboard"
+        class="nav-link active"
+      >
+        Dashboard
+      </a>
+
+      <a
+        routerLink="/employees"
+        class="nav-link"
+      >
+        Employees
+      </a>
+
+    </nav>
+
+    <button
+      class="logout-button"
+      (click)="logout()"
+    >
+      Logout
+    </button>
+
+  </aside>
+
+  <main class="main-content">
+
+    <header class="topbar">
+
+      <div>
+        <h1>Dashboard</h1>
+        <p>Welcome back, {{ username }}</p>
+      </div>
+
+      <a
+        routerLink="/employees"
+        class="manage-button"
+      >
+        Manage Employees
+      </a>
+
+    </header>
+
+    <div
+      *ngIf="loading"
+      class="loading"
+    >
+      Loading dashboard...
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="error-message"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <section
+      *ngIf="!loading && !errorMessage"
+      class="stats-grid"
+    >
+
+      <div class="stat-card">
+
+        <div class="stat-icon blue">
+          👥
+        </div>
+
+        <div>
+          <p>Total Employees</p>
+          <h2>{{ totalEmployees }}</h2>
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon green">
+          ✓
+        </div>
+
+        <div>
+          <p>Active Employees</p>
+          <h2>{{ activeEmployees }}</h2>
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon red">
+          ○
+        </div>
+
+        <div>
+          <p>Inactive Employees</p>
+          <h2>{{ inactiveEmployees }}</h2>
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="quick-section">
+
+      <div class="section-header">
+
+        <div>
+          <h2>Employee Management</h2>
+
+          <p>
+            Search, add and manage employee records.
+          </p>
+        </div>
+
+        <a
+          routerLink="/employees"
+          class="primary-button"
+        >
+          View Employees
+        </a>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
