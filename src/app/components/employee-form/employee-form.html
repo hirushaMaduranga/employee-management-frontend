@@ -5,7 +5,6 @@
     <div class="form-header">
 
       <div>
-
         <h1>
           {{
             isEditMode
@@ -21,7 +20,6 @@
               : 'Create a new employee record.'
           }}
         </p>
-
       </div>
 
       <button
@@ -48,6 +46,13 @@
       {{ errorMessage }}
     </div>
 
+    <div
+      *ngIf="successMessage"
+      class="success-message"
+    >
+      {{ successMessage }}
+    </div>
+
     <form
       *ngIf="!loading"
       (ngSubmit)="saveEmployee()"
@@ -57,17 +62,17 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="employeeCode">
             Employee Code *
           </label>
 
           <input
+            id="employeeCode"
             type="text"
             name="employeeCode"
-            [(ngModel)]="
-              form.employeeCode
-            "
+            [(ngModel)]="form.employeeCode"
             [readonly]="isEditMode"
+            placeholder="Example: EMP003"
             required
           />
 
@@ -75,16 +80,16 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="firstName">
             First Name *
           </label>
 
           <input
+            id="firstName"
             type="text"
             name="firstName"
-            [(ngModel)]="
-              form.firstName
-            "
+            [(ngModel)]="form.firstName"
+            placeholder="Enter first name"
             required
           />
 
@@ -92,16 +97,16 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="lastName">
             Last Name *
           </label>
 
           <input
+            id="lastName"
             type="text"
             name="lastName"
-            [(ngModel)]="
-              form.lastName
-            "
+            [(ngModel)]="form.lastName"
+            placeholder="Enter last name"
             required
           />
 
@@ -109,16 +114,16 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="nic">
             NIC *
           </label>
 
           <input
+            id="nic"
             type="text"
             name="nic"
-            [(ngModel)]="
-              form.nic
-            "
+            [(ngModel)]="form.nic"
+            placeholder="Enter NIC"
             required
           />
 
@@ -126,16 +131,17 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="mobileNo">
             Mobile Number *
           </label>
 
           <input
+            id="mobileNo"
             type="text"
             name="mobileNo"
-            [(ngModel)]="
-              form.mobileNo
-            "
+            [(ngModel)]="form.mobileNo"
+            placeholder="0771234567"
+            maxlength="10"
             required
           />
 
@@ -143,16 +149,16 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="email">
             Email *
           </label>
 
           <input
+            id="email"
             type="email"
             name="email"
-            [(ngModel)]="
-              form.email
-            "
+            [(ngModel)]="form.email"
+            placeholder="employee@example.com"
             required
           />
 
@@ -160,15 +166,14 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="gender">
             Gender *
           </label>
 
           <select
+            id="gender"
             name="gender"
-            [(ngModel)]="
-              form.gender
-            "
+            [(ngModel)]="form.gender"
             [disabled]="isEditMode"
             required
           >
@@ -191,16 +196,15 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="dateOfBirth">
             Date of Birth *
           </label>
 
           <input
+            id="dateOfBirth"
             type="date"
             name="dateOfBirth"
-            [(ngModel)]="
-              form.dateOfBirth
-            "
+            [(ngModel)]="form.dateOfBirth"
             [readonly]="isEditMode"
             required
           />
@@ -209,20 +213,18 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="designationId">
             Designation *
           </label>
 
           <select
+            id="designationId"
             name="designationId"
-            [(ngModel)]="
-              form.designationId
-            "
+            [(ngModel)]="form.designationId"
+            required
           >
 
-            <option
-              [ngValue]="1"
-            >
+            <option [ngValue]="1">
               Software Engineer
             </option>
 
@@ -232,15 +234,15 @@
 
         <div class="form-group">
 
-          <label>
+          <label for="status">
             Status *
           </label>
 
           <select
+            id="status"
             name="status"
-            [(ngModel)]="
-              form.status
-            "
+            [(ngModel)]="form.status"
+            required
           >
 
             <option value="ACTIVE">
@@ -257,16 +259,16 @@
 
         <div class="form-group full-width">
 
-          <label>
+          <label for="address">
             Address *
           </label>
 
           <textarea
+            id="address"
             name="address"
             rows="3"
-            [(ngModel)]="
-              form.address
-            "
+            [(ngModel)]="form.address"
+            placeholder="Enter employee address"
             required
           ></textarea>
 
@@ -274,16 +276,15 @@
 
         <div class="form-group full-width">
 
-          <label>
+          <label for="profileImage">
             Profile Image
           </label>
 
           <input
+            id="profileImage"
             type="file"
-            accept=".jpg,.jpeg,.png"
-            (change)="
-              onFileSelected($event)
-            "
+            accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+            (change)="onFileSelected($event)"
           />
 
           <small>
