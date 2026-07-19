@@ -1,0 +1,221 @@
+<div class="view-page">
+
+  <div class="view-container">
+
+    <div class="view-header">
+
+      <div>
+        <h1>Employee Details</h1>
+        <p>View complete employee registration information.</p>
+      </div>
+
+      <div class="header-actions">
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="downloadPdf()"
+        >
+          Download PDF
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="downloadExcel()"
+        >
+          Download Excel
+        </button>
+
+        <button
+          type="button"
+          class="secondary-button"
+          (click)="goBack()"
+        >
+          Back
+        </button>
+
+        <button
+          type="button"
+          class="primary-button"
+          (click)="editEmployee()"
+        >
+          Edit Employee
+        </button>
+
+      </div>
+
+    </div>
+
+    <div
+      *ngIf="loading"
+      class="message"
+    >
+      Loading employee details...
+    </div>
+
+    <div
+      *ngIf="errorMessage"
+      class="error-message"
+    >
+      {{ errorMessage }}
+    </div>
+
+    <div
+      *ngIf="!loading && employee"
+      class="details-card"
+    >
+
+      <div class="profile-section">
+
+        <img
+          *ngIf="employee.profileImagePath"
+          [src]="getProfileImageUrl(employee.profileImagePath)"
+          [alt]="employee.firstName"
+          class="profile-image"
+        />
+
+        <div
+          *ngIf="!employee.profileImagePath"
+          class="profile-placeholder"
+        >
+          {{
+            employee.firstName
+              .charAt(0)
+              .toUpperCase()
+          }}
+        </div>
+
+        <div class="profile-info">
+
+          <h2>
+            {{ employee.firstName }}
+            {{ employee.lastName }}
+          </h2>
+
+          <p>
+            {{ employee.employeeCode }}
+          </p>
+
+          <span
+            class="status-badge"
+            [class.active]="employee.status === 'ACTIVE'"
+            [class.inactive]="employee.status === 'INACTIVE'"
+          >
+            {{ employee.status }}
+          </span>
+
+        </div>
+
+      </div>
+
+      <div class="details-grid">
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Employee Code
+          </span>
+
+          <strong>
+            {{ employee.employeeCode }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Full Name
+          </span>
+
+          <strong>
+            {{ employee.firstName }}
+            {{ employee.lastName }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Address
+          </span>
+
+          <strong>
+            {{ employee.address }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            NIC
+          </span>
+
+          <strong>
+            {{ employee.nic }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Mobile Number
+          </span>
+
+          <strong>
+            {{ employee.mobileNo }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Gender
+          </span>
+
+          <strong>
+            {{ employee.gender }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Email
+          </span>
+
+          <strong>
+            {{ employee.email }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Designation
+          </span>
+
+          <strong>
+            {{ employee.designation.designationName }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Date of Birth
+          </span>
+
+          <strong>
+            {{ employee.dateOfBirth }}
+          </strong>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">
+            Status
+          </span>
+
+          <strong>
+            {{ employee.status }}
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
