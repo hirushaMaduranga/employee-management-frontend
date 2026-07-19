@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { EmployeeRequest } from '../../services/employee';
+import { Designation, EmployeeRequest } from '../../services/employee';
 
 @Component({
   selector: 'app-employee-form',
@@ -27,6 +27,8 @@ export class EmployeeForm implements OnInit {
 
   selectedFile: File | null = null;
 
+  designations: Designation[] = [];
+
   form: EmployeeRequest = {
     employeeCode: '',
     firstName: '',
@@ -36,7 +38,7 @@ export class EmployeeForm implements OnInit {
     mobileNo: '',
     gender: '',
     email: '',
-    designationId: 1,
+    designationId: 0,
     profileImagePath: null,
     dateOfBirth: '',
     status: 'ACTIVE',
@@ -49,6 +51,8 @@ export class EmployeeForm implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    void this.loadDesignations();
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
@@ -57,6 +61,30 @@ export class EmployeeForm implements OnInit {
       this.isEditMode = true;
 
       void this.loadEmployee();
+    }
+  }
+
+  async loadDesignations(): Promise<void> {
+    try {
+      const response = await fetch('http://localhost:8080/api/designations');
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data: Designation[] = await response.json();
+
+      this.designations = data ?? [];
+
+      if (!this.isEditMode && this.designations.length > 0 && !this.form.designationId) {
+        this.form.designationId = this.designations[0].designationId;
+      }
+    } catch (error) {
+      console.error('Designation loading error:', error);
+
+      this.errorMessage = 'Unable to load designations.';
+    } finally {
+      this.cdr.detectChanges();
     }
   }
 
@@ -79,20 +107,31 @@ export class EmployeeForm implements OnInit {
 
       this.form = {
         employeeCode: employee.employeeCode,
+
         firstName: employee.firstName,
+
         lastName: employee.lastName,
+
         address: employee.address,
+
         nic: employee.nic,
+
         mobileNo: employee.mobileNo,
+
         gender: employee.gender,
+
         email: employee.email,
+
         designationId: employee.designation.designationId,
+
         profileImagePath: employee.profileImagePath,
+
         dateOfBirth: employee.dateOfBirth,
+
         status: employee.status,
       };
     } catch (error) {
-      console.error(error);
+      console.error('Employee loading error:', error);
 
       this.errorMessage = 'Unable to load employee details.';
     } finally {
@@ -105,35 +144,37 @@ export class EmployeeForm implements OnInit {
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
 
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      const allowedTypes = ['image/jpeg', 'image/png'];
-
-      if (!allowedTypes.includes(file.type)) {
-        this.errorMessage = 'Only JPG and PNG images are allowed.';
-
-        input.value = '';
-
-        this.selectedFile = null;
-
-        return;
-      }
-
-      if (file.size > 5 * 1024 * 1024) {
-        this.errorMessage = 'Profile image must be smaller than 5MB.';
-
-        input.value = '';
-
-        this.selectedFile = null;
-
-        return;
-      }
-
-      this.errorMessage = '';
-
-      this.selectedFile = file;
+    if (!input.files || input.files.length === 0) {
+      return;
     }
+
+    const file = input.files[0];
+
+    const allowedTypes = ['image/jpeg', 'image/png'];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.errorMessage = 'Only JPG and PNG images are allowed.';
+
+      input.value = '';
+
+      this.selectedFile = null;
+
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      this.errorMessage = 'Profile image must be smaller than 5MB.';
+
+      input.value = '';
+
+      this.selectedFile = null;
+
+      return;
+    }
+
+    this.errorMessage = '';
+
+    this.selectedFile = file;
   }
 
   validateForm(): boolean {
@@ -199,6 +240,12 @@ export class EmployeeForm implements OnInit {
 
     if (!this.form.address.trim()) {
       this.errorMessage = 'Address is required.';
+
+      return false;
+    }
+
+    if (!this.form.designationId) {
+      this.errorMessage = 'Please select a designation.';
 
       return false;
     }
@@ -272,7 +319,7 @@ export class EmployeeForm implements OnInit {
 
       await this.router.navigate(['/employees']);
     } catch (error) {
-      console.error(error);
+      console.error('Employee save error:', error);
 
       const message = error instanceof Error ? error.message : 'Unable to save employee.';
 
