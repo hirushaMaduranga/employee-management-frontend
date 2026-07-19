@@ -3,16 +3,12 @@
   <aside class="sidebar">
 
     <div class="logo">
-
-      <div class="logo-icon">
-        EM
-      </div>
+      <div class="logo-icon">EM</div>
 
       <div class="logo-text">
         <h2>Employee</h2>
         <span>Management</span>
       </div>
-
     </div>
 
     <nav class="navigation">
@@ -49,10 +45,7 @@
 
       <div>
         <h1>Employee Management</h1>
-
-        <p>
-          Search and manage employee records.
-        </p>
+        <p>Search and manage employee records.</p>
       </div>
 
       <div class="header-actions">
@@ -76,9 +69,9 @@
         <button
           type="button"
           class="primary-button"
-          routerLink="/employees/add"
+          (click)="openEmployeeModal()"
         >
-          Add Employee
+          New Employee
         </button>
 
       </div>
@@ -89,16 +82,45 @@
 
       <div class="filter-group">
 
-        <label for="employeeSearch">
-          Search
+        <label for="employeeCode">
+          Employee Code
         </label>
 
         <input
-          id="employeeSearch"
+          id="employeeCode"
           type="text"
-          [(ngModel)]="keyword"
-          placeholder="Search by code, NIC or name"
-          (keyup.enter)="search()"
+          [(ngModel)]="employeeCode"
+          placeholder="Enter employee code"
+        />
+
+      </div>
+
+      <div class="filter-group">
+
+        <label for="employeeNic">
+          Employee NIC
+        </label>
+
+        <input
+          id="employeeNic"
+          type="text"
+          [(ngModel)]="nic"
+          placeholder="Enter employee NIC"
+        />
+
+      </div>
+
+      <div class="filter-group">
+
+        <label for="employeeName">
+          Employee Name
+        </label>
+
+        <input
+          id="employeeName"
+          type="text"
+          [(ngModel)]="employeeName"
+          placeholder="Enter employee name"
         />
 
       </div>
@@ -179,14 +201,14 @@
 
           <tr>
             <th>Profile</th>
-            <th>Code</th>
-            <th>Name</th>
+            <th>Employee Code</th>
+            <th>Full Name</th>
+            <th>Address</th>
             <th>NIC</th>
-            <th>Mobile</th>
-            <th>Email</th>
+            <th>Mobile No</th>
             <th>Designation</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Action</th>
           </tr>
 
           </thead>
@@ -233,6 +255,10 @@
             </td>
 
             <td>
+              {{ employee.address }}
+            </td>
+
+            <td>
               {{ employee.nic }}
             </td>
 
@@ -241,13 +267,7 @@
             </td>
 
             <td>
-              {{ employee.email }}
-            </td>
-
-            <td>
-              {{
-                employee.designation.designationName
-              }}
+              {{ employee.designation.designationName }}
             </td>
 
             <td>
@@ -265,6 +285,17 @@
             <td>
 
               <div class="action-buttons">
+
+                <button
+                  type="button"
+                  class="view-button"
+                  [routerLink]="[
+                      '/employees/view',
+                      employee.employeeId
+                    ]"
+                >
+                  View
+                </button>
 
                 <button
                   type="button"
@@ -319,3 +350,10 @@
   </main>
 
 </div>
+
+<app-employee-modal
+  [visible]="showEmployeeModal"
+  (closeModal)="closeEmployeeModal()"
+  (employeeCreated)="onEmployeeCreated()"
+>
+</app-employee-modal>
