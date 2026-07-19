@@ -124,10 +124,6 @@
   gap: 10px;
 }
 
-button {
-  font-family: inherit;
-}
-
 .primary-button,
 .secondary-button,
 .search-button,
@@ -155,8 +151,10 @@ button {
 
 .filter-card {
   display: grid;
-  grid-template-columns: minmax(250px, 2fr) minmax(180px, 1fr) auto;
-  gap: 18px;
+  grid-template-columns:
+    repeat(4, minmax(150px, 1fr))
+    auto;
+  gap: 14px;
   align-items: end;
   margin-bottom: 24px;
   padding: 22px;
@@ -201,16 +199,15 @@ button {
 .reset-button {
   height: 42px;
   padding: 0 18px;
+  border: none;
 }
 
 .search-button {
-  border: none;
   background: #2563eb;
   color: #ffffff;
 }
 
 .reset-button {
-  border: none;
   background: #e2e8f0;
   color: #334155;
 }
@@ -229,7 +226,7 @@ button {
 
 table {
   width: 100%;
-  min-width: 1050px;
+  min-width: 1150px;
   border-collapse: collapse;
 }
 
@@ -276,7 +273,6 @@ tbody tr:last-child td {
   display: block;
   object-fit: cover;
   border: 1px solid #e2e8f0;
-  background: #f1f5f9;
 }
 
 .profile-placeholder {
@@ -312,11 +308,19 @@ tbody tr:last-child td {
   align-items: center;
   gap: 7px;
 }
-
+.view-button,
 .edit-button,
 .status-button {
   padding: 7px 10px;
   border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.view-button {
+  background: #dcfce7;
+  color: #166534;
 }
 
 .edit-button {
@@ -328,10 +332,9 @@ tbody tr:last-child td {
   background: #f1f5f9;
   color: #334155;
 }
-
 .message,
 .empty-row {
-  padding: 32px;
+  padding: 30px;
   text-align: center;
   color: #64748b;
 }
@@ -345,15 +348,15 @@ tbody tr:last-child td {
   color: #b91c1c;
 }
 
-@media (max-width: 1000px) {
-
-  .page-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
+@media (max-width: 1150px) {
 
   .filter-card {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+  .filter-buttons {
+    grid-column: 1 / -1;
   }
 }
 
@@ -377,7 +380,20 @@ tbody tr:last-child td {
     padding: 20px;
   }
 
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .header-actions {
     flex-wrap: wrap;
+  }
+
+  .filter-card {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-buttons {
+    grid-column: auto;
   }
 }
